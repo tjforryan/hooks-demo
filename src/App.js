@@ -1,26 +1,17 @@
-import React, { useState, useEffect }from 'react';
-import axios from 'axios';
+import React from 'react';
 
+import CurrentCat from './CurrentCat';
+import { FavouritesContext, useFavourites } from './useFavourites';
 import './App.css';
+import ImageGallery from './ImageGallery';
 
 const App = () => {
-  const [currentImageUrl, changeImageUrl] = useState(null);
-
-  useEffect(() => {
-    axios('https://aws.random.cat/meow')
-      .then(
-        (response) => changeImageUrl(response.data.file)
-      );
-  }, []);
-
   return (
     <div className="App">
-      <h1>What do you think of this?</h1>
-      <div className="imageBox">
-        {
-          currentImageUrl && <img src={currentImageUrl} className="mainImage"/>
-        }
-      </div>
+    <FavouritesContext.Provider value={useFavourites()}>
+      <CurrentCat />
+      <ImageGallery />
+    </FavouritesContext.Provider>  
     </div>
   );
 };
